@@ -17,6 +17,9 @@ app.get('/', (req, res) => {
 const userRouter = require('./routers/userRouter')
 app.use('/user', userRouter)
 
+const locationRouter = require('./routers/locationRouter')
+app.use('/locations', locationRouter)
+
 // SERVER
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
