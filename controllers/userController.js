@@ -58,4 +58,30 @@ userController.checkAuth = async (req, res) => {
     }
 }
 
+userController.findOne = async (req, res) => {
+    try {
+        const encryptedId = req.headers.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+        
+        const foundUser = await user.findOne({
+            where: { id: decryptedId.userId },
+            include: location
+        })
+        
+        // console.log('foundUser', foundUser.dataValues)
+
+        res.json({
+            status: 200,
+            message: 'Here is your user info',
+            user: foundUser
+        })
+    } catch (error) {
+        res.json({
+            status: 404,
+            message: 'Could not find user',
+            error
+        })
+    }
+}
+
 module.exports = userController
