@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "earthquake-viz",
+    "database": "earthquake-data",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
