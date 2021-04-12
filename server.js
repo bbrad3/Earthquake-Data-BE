@@ -20,6 +20,9 @@ app.use('/user', userRouter)
 const locationRouter = require('./routers/locationRouter')
 app.use('/locations', locationRouter)
 
+const searchRouter = require('./routers/searchRouter')
+app.use('/search', searchRouter)
+
 // SERVER
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
