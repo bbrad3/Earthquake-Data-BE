@@ -51,7 +51,7 @@ locationController.associateUser = async (req, res) => {
 
 locationController.unassociateUser = async (req, res) => {
     try {
-        console.log(req.body);
+        console.log(req.headers);
         const encryptedId = req.headers.authorization
         const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
         console.log('decryptedId', decryptedId)
@@ -61,10 +61,10 @@ locationController.unassociateUser = async (req, res) => {
         })
         // console.log('foundUser', foundUser)
         const foundLocation = await location.findOne({
-            where: { id: req.headers.local.id } // WHERE IS LOCAL?
+            where: { id: req.headers.localid } // WHERE IS LOCAL?
         })
         console.log('foundLocation', foundLocation)
-        // const association = await foundUser.removeLocation(foundLocation)
+        const association = await foundUser.removeLocation(foundLocation)
         console.log('UN-ASSOCIATED', association)
         res.json({
             status: 200,

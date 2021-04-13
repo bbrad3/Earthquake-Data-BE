@@ -84,4 +84,54 @@ userController.findOne = async (req, res) => {
     }
 }
 
+userController.update = async (req, res) => {
+    try {
+        const encryptedId = req.body.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+
+        const foundUser = await user.findOne({
+            where: {id: decryptedId.userId}
+        })
+
+        const updatedUser = await foundUser.update({
+            username: req.body.username,
+            email: req.body.email
+        })
+
+        res.json({
+            status: 200,
+            message: 'User info updated',
+            updatedUser
+        })
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: 'Could not update user',
+            error
+        })
+    }
+}
+
+userController.destroy = async (req, res) => {
+    try {
+        const encryptedId = req.headers.authorization
+        const decryptedId = await jwt.verify(encryptedId, process.env.JWT_SECRET)
+
+        const destroyedUser = await user.destroy({
+            where: { id: decryptedId.userId }
+        })
+        res.json({
+            status: 200,
+            message: 'User has been eliminated',
+            destroyedUser
+        })
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: 'Could not destroy user',
+            error
+        })
+    }
+}
+
 module.exports = userController
